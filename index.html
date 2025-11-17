@@ -1,223 +1,62 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Calculadora de Horário Noturno – LudBarroso</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Horário Noturno</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+<body>
 
-<body style="background:#05060b;color:#fff;font-family:Arial, sans-serif;padding:24px;">
+    <h1>Calculadora de Horário Noturno</h1>
 
-  <h1 style="font-size:24px;margin-bottom:8px;text-align:center;">
-    Calculadora de Horário Noturno
-  </h1>
-
-  <p style="font-size:14px;color:#d1d5db;margin-bottom:16px;text-align:center;max-width:420px;margin:auto;">
-    Informe o horário de entrada, a carga horária mensal, o mês, os dias trabalhados na semana e o intervalo.<br>
-    A saída considera a <strong>hora reduzida de 52min30s</strong> a partir das 22h até o fim da jornada.
-  </p>
-
-  <div style="max-width:420px;margin:auto;background:#111827;border-radius:16px;padding:20px;border:1px solid #1f2937;">
-
-    <!-- Entrada -->
-    <label style="font-size:14px;">Hora de entrada:</label>
-    <input id="entrada" type="time"
-           style="width:100%;padding:10px;border-radius:8px;margin-bottom:16px;
-                  background:#020617;color:#fff;border:1px solid #1f2937;">
-
-    <!-- Carga mensal -->
-    <label style="font-size:14px;">Carga horária mensal (em horas):</label>
-    <input id="cargaMensal" type="number" placeholder="Ex: 220"
-           style="width:100%;padding:10px;border-radius:8px;margin-bottom:16px;
-                  background:#020617;color:#fff;border:1px solid #1f2937;">
-
-    <!-- Mês -->
-    <label style="font-size:14px;">Mês de referência:</label>
-    <select id="mes"
-            style="width:100%;padding:10px;border-radius:8px;margin-bottom:16px;
-                   background:#020617;color:#fff;border:1px solid #1f2937;">
-      <option value="1">Janeiro</option>
-      <option value="2">Fevereiro</option>
-      <option value="3">Março</option>
-      <option value="4">Abril</option>
-      <option value="5">Maio</option>
-      <option value="6">Junho</option>
-      <option value="7">Julho</option>
-      <option value="8">Agosto</option>
-      <option value="9">Setembro</option>
-      <option value="10">Outubro</option>
-      <option value="11">Novembro</option>
-      <option value="12">Dezembro</option>
-    </select>
-
-    <!-- Dias trabalhados na semana -->
-    <label style="font-size:14px;display:block;margin-bottom:6px;">Dias trabalhados na semana:</label>
-    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;font-size:13px;">
-      <label><input type="checkbox" class="diaSemana" value="1"> Seg</label>
-      <label><input type="checkbox" class="diaSemana" value="2"> Ter</label>
-      <label><input type="checkbox" class="diaSemana" value="3"> Qua</label>
-      <label><input type="checkbox" class="diaSemana" value="4"> Qui</label>
-      <label><input type="checkbox" class="diaSemana" value="5"> Sex</label>
-      <label><input type="checkbox" class="diaSemana" value="6"> Sáb</label>
-      <label><input type="checkbox" class="diaSemana" value="7"> Dom</label>
-    </div>
-
-    <!-- Intervalo -->
-    <label style="font-size:14px;">Intervalo (HH:MM):</label>
-    <input id="intervalo" type="text" placeholder="Ex: 01:00"
-           style="width:100%;padding:10px;border-radius:8px;margin-bottom:10px;
-                  background:#020617;color:#fff;border:1px solid #1f2937;">
-
-    <!-- Carga diária calculada -->
-    <p id="cargaDiariaInfo"
-       style="font-size:13px;color:#9ca3af;margin-top:4px;margin-bottom:12px;text-align:center;">
-      Carga diária calculada: —
+    <p class="descricao">
+        Informe o horário de entrada, a carga horária mensal, o mês, os dias trabalhados na semana e o intervalo.<br>
+        A saída considera a <strong>hora reduzida de 52min30s</strong> a partir das 22h até o fim da jornada.
     </p>
 
-    <button onclick="calcularSaida()"
-            style="width:100%;padding:12px;border-radius:8px;background:#2563eb;border:none;color:white;
-                   font-size:16px;font-weight:bold;cursor:pointer;">
-      Calcular saída
-    </button>
+    <div class="card">
 
-    <p id="erro"
-       style="color:#f87171;font-size:14px;margin-top:12px;text-align:center;"></p>
+        <label>Hora de entrada:</label>
+        <input type="time" id="entrada">
 
-    <div id="resultado"
-         style="display:none;margin-top:18px;padding:14px;border-radius:12px;background:#020617;border:1px solid #1f2937;
-                font-size:16px;text-align:center;">
+        <label>Carga horária mensal (em horas):</label>
+        <input type="number" id="cargaMensal" placeholder="Ex: 220">
+
+        <label>Mês de referência:</label>
+        <select id="mes">
+            <option>Janeiro</option><option>Fevereiro</option><option>Março</option>
+            <option>Abril</option><option>Maio</option><option>Junho</option>
+            <option>Julho</option><option>Agosto</option><option>Setembro</option>
+            <option>Outubro</option><option>Novembro</option><option>Dezembro</option>
+        </select>
+
+        <label>Dias trabalhados na semana:</label>
+        <div class="dias">
+            <label><input type="checkbox" value="seg" checked> Seg</label>
+            <label><input type="checkbox" value="ter" checked> Ter</label>
+            <label><input type="checkbox" value="qua" checked> Qua</label>
+            <label><input type="checkbox" value="qui" checked> Qui</label>
+            <label><input type="checkbox" value="sex" checked> Sex</label>
+            <label><input type="checkbox" value="sab"> Sáb</label>
+            <label><input type="checkbox" value="dom"> Dom</label>
+        </div>
+
+        <label>Intervalo (HH:MM):</label>
+        <input type="time" id="intervalo" value="01:00">
+
+        <p class="resultado-pequeno">
+            Carga diária calculada: <span id="cargaDiaria">—</span>
+        </p>
+
+        <button onclick="calcularSaida()">Calcular saída</button>
+
+        <p class="resultado" id="resultado"></p>
+
     </div>
 
-    <p style="margin-top:14px;font-size:12px;color:#9ca3af;text-align:center;">
-      Criado por <span style="color:#c084fc;">LudBarroso</span>
-    </p>
-  </div>
+    <footer>Criado por <a href="#">LudBarroso</a></footer>
 
-<script>
-function diasNoMes(mes) {
-  const tabela = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // ano não bissexto
-  return tabela[mes - 1] || 30;
-}
-
-function converterHHMMparaMinutos(str) {
-  if (!str || !str.includes(":")) return 0;
-  const [h, m] = str.split(":").map(Number);
-  if (isNaN(h) || isNaN(m)) return 0;
-  return (h * 60) + m;
-}
-
-function formatarMinutosEmHHMM(min) {
-  const h = Math.floor(min / 60);
-  const m = Math.round(min % 60);
-  const hh = String(h).padStart(2, "0");
-  const mm = String(m).padStart(2, "0");
-  return hh + ":" + mm;
-}
-
-function calcularSaida() {
-  const entrada = document.getElementById("entrada").value;
-  const cargaMensalStr = document.getElementById("cargaMensal").value;
-  const mes = parseInt(document.getElementById("mes").value, 10);
-  const intervaloStr = document.getElementById("intervalo").value;
-
-  const erroEl = document.getElementById("erro");
-  const resEl = document.getElementById("resultado");
-  const cargaInfoEl = document.getElementById("cargaDiariaInfo");
-
-  erroEl.textContent = "";
-  resEl.style.display = "none";
-  resEl.textContent = "";
-  cargaInfoEl.textContent = "Carga diária calculada: —";
-
-  if (!entrada) {
-    erroEl.textContent = "Informe o horário de entrada.";
-    return;
-  }
-
-  const cargaMensal = parseFloat(cargaMensalStr);
-  if (!cargaMensal || cargaMensal <= 0) {
-    erroEl.textContent = "Informe a carga horária mensal (em horas).";
-    return;
-  }
-
-  // Dias da semana trabalhados
-  const checkboxes = document.querySelectorAll(".diaSemana");
-  let diasTrabalhadosSemana = 0;
-  checkboxes.forEach(cb => {
-    if (cb.checked) diasTrabalhadosSemana++;
-  });
-
-  if (diasTrabalhadosSemana === 0) {
-    erroEl.textContent = "Selecione pelo menos um dia trabalhado na semana.";
-    return;
-  }
-
-  const totalDiasMes = diasNoMes(mes);
-  // Estimativa de dias trabalhados no mês
-  const diasTrabalhadosMes = Math.round(totalDiasMes * (diasTrabalhadosSemana / 7));
-
-  if (diasTrabalhadosMes <= 0) {
-    erroEl.textContent = "Não foi possível calcular os dias trabalhados no mês.";
-    return;
-  }
-
-  // Carga diária em minutos
-  const cargaDiariaMin = (cargaMensal * 60) / diasTrabalhadosMes;
-  const cargaDiariaMinArred = Math.round(cargaDiariaMin);
-
-  cargaInfoEl.textContent =
-    "Carga diária calculada: " + formatarMinutosEmHHMM(cargaDiariaMinArred) +
-    " (" + diasTrabalhadosMes + " dias de trabalho no mês)";
-
-  // Intervalo em minutos
-  const intervaloMin = converterHHMMparaMinutos(intervaloStr);
-
-  // Conversão da entrada
-  const [h, m] = entrada.split(":").map(Number);
-  const inicioMin = h * 60 + m;
-
-  const totalLegal = cargaDiariaMinArred; // minutos "legais" trabalhados (sem intervalo)
-  const nightStart = 22 * 60;
-
-  let endMin;
-
-  if (inicioMin >= nightStart) {
-    // Jornada inteira em período noturno
-    const reaisNoturnos = totalLegal * (52.5 / 60);
-    endMin = inicioMin + reaisNoturnos + intervaloMin;
-  } else {
-    const minutosAte22 = Math.max(0, nightStart - inicioMin);
-
-    if (totalLegal <= minutosAte22) {
-      // Jornada termina antes das 22h
-      endMin = inicioMin + totalLegal + intervaloMin;
-    } else {
-      // Parte diurna até 22h + parte noturna reduzida
-      const legalNoturno = totalLegal - minutosAte22;
-      const reaisNoturnos = legalNoturno * (52.5 / 60);
-      endMin = nightStart + reaisNoturnos + intervaloMin;
-    }
-  }
-
-  // Ajuste para virar o dia
-  endMin = endMin % (24 * 60);
-
-  let saidaH = Math.floor(endMin / 60);
-  let saidaM = Math.round(endMin % 60);
-  if (saidaM === 60) {
-    saidaM = 0;
-    saidaH = (saidaH + 1) % 24;
-  }
-
-  const saidaFmt =
-    String(saidaH).padStart(2, "0") + ":" + String(saidaM).padStart(2, "0");
-
-  resEl.style.display = "block";
-  resEl.innerHTML =
-    ⏱ <strong>Horário sugerido de saída:</strong><br> +
-    <span style="font-size:22px;">${saidaFmt}</span>;
-}
-</script>
-
+    <script src="script.js"></script>
 </body>
 </html>
