@@ -1,12 +1,102 @@
 <!DOCTYPE html>
-<html>
-  <body style="background:#000;color:#fff;padding:40px;font-size:22px;">
-    <h1>TESTE NOTURNO DA LUD 🌙✨</h1>
-    <p>Se o botão abaixo mostrar um alerta, está tudo certo!</p>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de Horário Noturno – LudBarroso</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 
-    <button onclick="alert('Funcionou, Lud!!! 🎉💙')"
-            style="padding:12px 20px;font-size:18px;border-radius:10px;background:#2563eb;border:none;color:#fff;cursor:pointer;">
-      Clique para testar
+<body style="background:#05060b;color:#fff;font-family:Arial, sans-serif;padding:24px;">
+
+  <h1 style="font-size:24px;margin-bottom:8px;text-align:center;">Calculadora de Horário Noturno</h1>
+
+  <p style="font-size:14px;color:#d1d5db;margin-bottom:16px;text-align:center;max-width:420px;margin-left:auto;margin-right:auto;">
+    Informe o horário de entrada e a carga horária desejada.
+    A saída será calculada considerando a <strong>hora reduzida de 52min30s</strong> a partir das 22h.
+  </p>
+
+  <div style="max-width:420px;margin:auto;background:#111827;border-radius:16px;padding:20px;border:1px solid #1f2937;">
+    
+    <label style="font-size:14px;">Hora de entrada:</label>
+    <input id="entrada" type="time"
+           style="width:100%;padding:10px;border-radius:8px;margin-bottom:16px;background:#020617;color:#fff;border:1px solid #1f2937;">
+    
+    <label style="font-size:14px;">Carga horária (em horas):</label>
+    <input id="carga" type="number" placeholder="Ex: 8"
+           style="width:100%;padding:10px;border-radius:8px;margin-bottom:16px;background:#020617;color:#fff;border:1px solid #1f2937;">
+
+    <button onclick="calcularSaida()"
+            style="width:100%;padding:12px;border-radius:8px;background:#2563eb;border:none;color:white;font-size:16px;font-weight:bold;cursor:pointer;">
+      Calcular saída
     </button>
-  </body>
+
+    <p id="erro" style="color:#f87171;font-size:14px;margin-top:12px;text-align:center;"></p>
+
+    <div id="resultado"
+         style="display:none;margin-top:18px;padding:14px;border-radius:12px;background:#020617;border:1px solid #1f2937;font-size:16px;text-align:center;">
+    </div>
+
+    <p style="margin-top:14px;font-size:12px;color:#9ca3af;text-align:center;">
+      Criado por <span style="color:#c084fc;">LudBarroso</span>
+    </p>
+
+  </div>
+
+<script>
+function calcularSaida() {
+  const entrada = document.getElementById("entrada").value;
+  const carga = parseFloat(document.getElementById("carga").value);
+  const erroEl = document.getElementById("erro");
+  const resEl = document.getElementById("resultado");
+
+  erroEl.textContent = "";
+  resEl.style.display = "none";
+  resEl.textContent = "";
+
+  if (!entrada || !carga || carga <= 0) {
+    erroEl.textContent = "Preencha os dois campos corretamente.";
+    return;
+  }
+
+  const [h, m] = entrada.split(":").map(Number);
+  const inicioMin = h * 60 + m;
+
+  const totalLegal = carga * 60;
+  const nightStart = 22 * 60;
+
+  let endMin;
+
+  if (inicioMin >= nightStart) {
+    const reaisNoturnos = totalLegal * (52.5 / 60);
+    endMin = inicioMin + reaisNoturnos;
+  } else {
+    const minutosAte22 = nightStart - inicioMin;
+
+    if (totalLegal <= minutosAte22) {
+      endMin = inicioMin + totalLegal;
+    } else {
+      const legalNoturno = totalLegal - minutosAte22;
+      const reaisNoturnos = legalNoturno * (52.5 / 60);
+      endMin = nightStart + reaisNoturnos;
+    }
+  }
+
+  endMin = endMin % (24 * 60);
+
+  let saidaH = Math.floor(endMin / 60);
+  let saidaM = Math.round(endMin % 60);
+
+  if (saidaM === 60) {
+    saidaM = 0;
+    saidaH = (saidaH + 1) % 24;
+  }
+
+  const saidaFmt = String(saidaH).padStart(2, "0") + ":" + String(saidaM).padStart(2, "0");
+
+  resEl.style.display = "block";
+  resEl.innerHTML = ⏱ <strong>Horário sugerido de saída:</strong><br><span style="font-size:22px;">${saidaFmt}</span>;
+}
+</script>
+
+</body>
 </html>
